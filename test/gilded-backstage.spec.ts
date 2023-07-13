@@ -1,7 +1,7 @@
 import { expect } from "chai"
 import { Item, GildedRose } from "../app/gilded-rose"
 
-describe("Backstage Pass", function () {
+describe.only("Backstage Pass", function () {
 
 	it("should have value go to zero after concert", function () {
 		const gildedRose = new GildedRose([new Item("Backstage passes to a TAFKAL80ETC concert", 0, 25)])
