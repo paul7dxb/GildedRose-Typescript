@@ -26,6 +26,12 @@ export class GildedRose {
 			const sellIn = item.sellIn
 
 			if (item.name === "Backstage passes to a TAFKAL80ETC concert") {
+				if (sellIn < 11) {
+					this.increaseQuality(item,1);
+				}
+				if (sellIn < 6) {
+                    this.increaseQuality(item,1);
+				}
 			}
 
 			if (
@@ -34,15 +40,8 @@ export class GildedRose {
 			) {
 				item.quality = item.quality - 1
 			} else {
-				item.quality = item.quality + 1
-				if (item.name == "Backstage passes to a TAFKAL80ETC concert") {
-					if (sellIn < 11) {
-						item.quality = item.quality + 1
-					}
-					if (sellIn < 6) {
-						item.quality = item.quality + 1
-					}
-				}
+                this.increaseQuality(item,1);
+
 			}
 
 			if (sellIn <= 0) {
