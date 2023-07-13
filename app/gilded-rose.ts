@@ -12,6 +12,8 @@ export class Item {
 
 export class GildedRose {
 	items: Array<Item>;
+    maxItemValue = 50;
+    minItemValue = 0;
 
 	constructor(items = [] as Array<Item>) {
 		this.items = items;
@@ -62,9 +64,9 @@ export class GildedRose {
 	}
 
 	decreaseQuality(item, value) {
-		item.quality = item.quality - value < 0 ? 0 : item.quality - value;
+		item.quality = item.quality - value < this.minItemValue ? this.minItemValue : item.quality - value;
 	}
 	increaseQuality(item, value) {
-		item.quality = item.quality + value > 50 ? 50 : item.quality + value;
+		item.quality = item.quality + value > this.maxItemValue ? this.maxItemValue : item.quality + value;
 	}
 }
