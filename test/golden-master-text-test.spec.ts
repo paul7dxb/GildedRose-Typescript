@@ -3,7 +3,7 @@ import { Item, GildedRose } from "../app/gilded-rose"
 
 describe("Gilded Rose Golden ", function () {
 
-	it("Golden Ticket Test should succeed", function () {
+	it("Golden Record Test should succeed", function () {
 		// (name, sellIn, quality)
 		const gildedRose = new GildedRose([
 			// Random Item
