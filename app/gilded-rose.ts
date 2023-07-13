@@ -23,13 +23,13 @@ export class GildedRose {
 				continue
 			}
 
-			const sellIn = item.sellIn
+			item.sellIn--
 
 			if (item.name === "Backstage passes to a TAFKAL80ETC concert") {
-				if (sellIn < 11) {
+				if (item.sellIn < 10) {
 					this.increaseQuality(item, 1)
 				}
-				if (sellIn < 6) {
+				if (item.sellIn < 5) {
 					this.increaseQuality(item, 1)
 				}
 			}
@@ -43,7 +43,7 @@ export class GildedRose {
 				this.increaseQuality(item, 1)
 			}
 
-			if (sellIn <= 0) {
+			if (item.sellIn < 0) {
 				if (item.name != "Aged Brie") {
 					if (
 						item.name != "Backstage passes to a TAFKAL80ETC concert"
@@ -53,18 +53,18 @@ export class GildedRose {
 						item.quality = 0
 					}
 				} else {
-					// item.quality = item.quality + 1
 					this.increaseQuality(item, 1)
 				}
 			}
 
 			this.containQualityValuesInBounds(item)
-			//  Reduce sellIn Date
-			item.sellIn--
+
 		}
 
 		return this.items
 	}
+
+
 
 	decreaseQuality(item, value) {
 		item.quality = item.quality - value
