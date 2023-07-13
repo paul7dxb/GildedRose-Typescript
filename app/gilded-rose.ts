@@ -48,7 +48,11 @@ export class GildedRose {
 				continue;
 			}
 
-
+			// Conjured
+			if (item.name === "Conjured") {
+				this.decreaseQuality(item, 2 * qualityChangeRate);
+				continue;
+			}
 
 			// Other items
 			this.decreaseQuality(item, qualityChangeRate);
