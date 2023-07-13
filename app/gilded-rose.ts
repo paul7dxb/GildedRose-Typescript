@@ -60,7 +60,7 @@ export class GildedRose {
 				}
 			}
 
-			this.containQualityValues(item)
+			this.containQualityValuesInBounds(item)
 			//  Reduce sellIn Date
 			item.sellIn--
 		}
@@ -74,7 +74,7 @@ export class GildedRose {
 	increaseQuality(item, value) {
 		item.quality = item.quality + value
 	}
-	containQualityValues(item) {
+	containQualityValuesInBounds(item) {
 		if (item.quality < 0) {
 			item.quality = 0
 		}
