@@ -12,8 +12,11 @@ export class Item {
 
 export class GildedRose {
 	items: Array<Item>;
-    maxItemValue = 50;
-    minItemValue = 0;
+    maxItemValue: number = 50;
+    minItemValue:number = 0;
+    backstageTripleThreshold: number = 5;
+    backstageDoubleThreshold: number = 10;
+
 
 	constructor(items = [] as Array<Item>) {
 		this.items = items;
@@ -34,8 +37,14 @@ export class GildedRose {
 				if (item.sellIn < 0) {
 					item.quality = 0;
 				} else {
-					const passIncrease =
-						item.sellIn < 5 ? 3 : item.sellIn < 10 ? 2 : 1;
+					let passIncrease
+                    if(item.sellIn < this.backstageTripleThreshold){
+                        passIncrease = 3;
+                    } else if( item.sellIn < this.backstageDoubleThreshold){
+                        passIncrease = 2;
+                    } else{
+                        passIncrease = 1;
+                    }
 					this.increaseQuality(item, passIncrease);
 				}
 				continue;
