@@ -24,6 +24,7 @@ export class GildedRose {
 				continue
 			}
 
+            // All other products than sulfuras get older
 			item.sellIn--
 
 			// Backstage passes
@@ -39,7 +40,6 @@ export class GildedRose {
 				} else {
 					this.increaseQuality(item, 1)
 				}
-				this.containQualityValuesInBounds(item)
 				continue
 			}
 
@@ -49,7 +49,6 @@ export class GildedRose {
 				} else {
 					this.increaseQuality(item, 1)
 				}
-				this.containQualityValuesInBounds(item)
 				continue
 			}
 
@@ -59,24 +58,17 @@ export class GildedRose {
 				this.decreaseQuality(item, 1)
 			}
 
-			this.containQualityValuesInBounds(item)
+			
 		}
 
 		return this.items
 	}
 
 	decreaseQuality(item, value) {
-		item.quality = item.quality - value
+		item.quality = item.quality - value < 0 ? 0 : item.quality - value
 	}
 	increaseQuality(item, value) {
-		item.quality = item.quality + value
+		item.quality = item.quality + value > 50 ? 50 : item.quality + value
 	}
-	containQualityValuesInBounds(item) {
-		if (item.quality < 0) {
-			item.quality = 0
-		}
-		if (item.quality > 50) {
-			item.quality = 50
-		}
-	}
+
 }
