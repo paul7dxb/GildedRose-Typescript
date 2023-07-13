@@ -19,12 +19,14 @@ export class GildedRose {
 
 	updateQuality() {
 		for (let item of this.items) {
+			// Sulfuras. They don't expire
 			if (item.name === "Sulfuras, Hand of Ragnaros") {
 				continue
 			}
 
 			item.sellIn--
 
+			// Backstage passes
 			if (item.name === "Backstage passes to a TAFKAL80ETC concert") {
 				if (item.sellIn < 10) {
 					this.increaseQuality(item, 1)
@@ -34,33 +36,28 @@ export class GildedRose {
 				}
 				if (item.sellIn < 0) {
 					item.quality = 0
-				} else{
-					this.increaseQuality(item, 1)
-                }
-                this.containQualityValuesInBounds(item)
-                continue;
-			}
-
-			if (
-				item.name != "Aged Brie"
-			) {
-				this.decreaseQuality(item, 1)
-			} else {
-				this.increaseQuality(item, 1)
-			}
-
-			if (item.sellIn < 0) {
-				if (item.name != "Aged Brie") {
-					
-						this.decreaseQuality(item, 1)
-					
 				} else {
 					this.increaseQuality(item, 1)
 				}
+				this.containQualityValuesInBounds(item)
+				continue
 			}
 
+			if (item.name === "Aged Brie") {
+				if (item.sellIn < 0) {
+					this.increaseQuality(item, 2)
+				} else {
+					this.increaseQuality(item, 1)
+				}
+				this.containQualityValuesInBounds(item)
+				continue
+			}
 
-            
+			if (item.sellIn < 0) {
+				this.decreaseQuality(item, 2)
+			} else {
+				this.decreaseQuality(item, 1)
+			}
 
 			this.containQualityValuesInBounds(item)
 		}
