@@ -15,9 +15,15 @@ describe("Gilded Rose", function () {
 	})
 
 	it("don't decrease sellIn by 1 for sulfuras", function () {
-		const gildedRose = new GildedRose([new Item("Sulfuras, Hand of Ragnaros", 5, 0)])
+		const gildedRose = new GildedRose([new Item("Sulfuras, Hand of Ragnaros", 5, 80)])
 		const items = gildedRose.updateQuality()
         expect(items[0].sellIn).to.equal(5)
+	})
+
+	it("sulfuras price remains at 80", function () {
+		const gildedRose = new GildedRose([new Item("Sulfuras, Hand of Ragnaros", 5, 80)])
+		const items = gildedRose.updateQuality()
+        expect(items[0].quality).to.equal(80)
 	})
 
 	it("backstage pass value goes to zero after concert", function () {
