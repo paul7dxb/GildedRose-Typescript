@@ -23,39 +23,23 @@ export class GildedRose {
 
 	updateQuality() {
 		for (let item of this.items) {
-        
 
-			// Sulfuras. They don't expire
-			if (item.name === "Sulfuras, Hand of Ragnaros") {
-				continue;
+            if(item.name === "Sulfuras, Hand of Ragnaros" ) {continue}
+
+            item.sellIn--;
+			switch (item.name) {
+				case "Backstage passes to a TAFKAL80ETC concert":
+					this.updateBackstagePass(item);
+					break;
+				case "Aged Brie":
+					this.updateAgedBrie(item);
+					break;
+				case "Conjured Mana Cake":
+					this.updateManaCake(item);
+					break;
+				default:
+					this.updateDefaultItem(item);
 			}
-
-			// All other products than sulfuras get older
-			item.sellIn--;
-
-			// Backstage passes
-			if (item.name === "Backstage passes to a TAFKAL80ETC concert") {
-				this.updateBackstagePass(item);
-				continue;
-			}
-
-			// Items affected by Expiry
-			const qualityChangeRate = item.sellIn < 0 ? 2 : 1;
-
-			// Aged Brie
-			if (item.name === "Aged Brie") {
-				this.increaseQuality(item, qualityChangeRate);
-				continue;
-			}
-
-			// Conjured
-			if (item.name === "Conjured Mana Cake") {
-				this.decreaseQuality(item, 2 * qualityChangeRate);
-				continue;
-			}
-
-			// Other items
-			this.decreaseQuality(item, qualityChangeRate);
 		}
 
 		return this.items;
@@ -88,5 +72,20 @@ export class GildedRose {
 			}
 			this.increaseQuality(item, passIncrease);
 		}
+	}
+
+	updateAgedBrie(item) {
+		const qualityChangeRate = item.sellIn < 0 ? 2 : 1;
+		this.increaseQuality(item, qualityChangeRate);
+	}
+
+	updateManaCake(item) {
+		const qualityChangeRate = item.sellIn < 0 ? 4 : 2;
+		this.decreaseQuality(item, qualityChangeRate);
+	}
+
+	updateDefaultItem(item) {
+		const qualityChangeRate = item.sellIn < 0 ? 2 : 1;
+		this.decreaseQuality(item, qualityChangeRate);
 	}
 }
