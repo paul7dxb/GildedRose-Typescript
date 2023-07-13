@@ -49,7 +49,7 @@ export class GildedRose {
 			}
 
 			// Conjured
-			if (item.name === "Conjured") {
+			if (item.name === "Conjured Mana Cake") {
 				this.decreaseQuality(item, 2 * qualityChangeRate);
 				continue;
 			}
