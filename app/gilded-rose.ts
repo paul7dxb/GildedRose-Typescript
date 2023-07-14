@@ -22,70 +22,80 @@ export class GildedRose {
 	}
 
 	updateQuality() {
-		for (let item of this.items) {
-
-            if(item.name === "Sulfuras, Hand of Ragnaros" ) {continue}
-
-            item.sellIn--;
-			switch (item.name) {
-				case "Backstage passes to a TAFKAL80ETC concert":
-					this.updateBackstagePass(item);
-					break;
-				case "Aged Brie":
-					this.updateAgedBrie(item);
-					break;
-				case "Conjured Mana Cake":
-					this.updateManaCake(item);
-					break;
-				default:
-					this.updateDefaultItem(item);
-			}
-		}
+        
+		this.items = this.items.map( item => {
+			return this.updateItem(item)
+		})
 
 		return this.items;
 	}
 
-	decreaseQuality(item, value) {
-		item.quality =
-			item.quality - value < this.minItemValue
-				? this.minItemValue
-				: item.quality - value;
-	}
-	increaseQuality(item, value) {
-		item.quality =
-			item.quality + value > this.maxItemValue
-				? this.maxItemValue
-				: item.quality + value;
+
+	updateItem({ name, sellIn, quality }) {
+
+		if (name === "Sulfuras, Hand of Ragnaros") {
+            return new Item(name, sellIn, quality);
+		}
+
+		const newSellIn = sellIn - 1;
+		let newQuality;
+
+		switch (name) {
+			case "Backstage passes to a TAFKAL80ETC concert":
+				newQuality = this.updateBackstagePass(newSellIn, quality);
+				break;
+			case "Aged Brie":
+				newQuality = this.updateAgedBrie(newSellIn, quality);
+				break;
+			case "Conjured Mana Cake":
+				newQuality = this.updateManaCake(newSellIn, quality);
+				break;
+			default:
+				newQuality = this.updateDefaultItem(newSellIn, quality);
+		}
+
+		return new Item(name, newSellIn, newQuality);
 	}
 
-	updateBackstagePass(item) {
-		if (item.sellIn < 0) {
-			item.quality = 0;
+
+	decreaseQuality(quality, value) {
+		return quality - value < this.minItemValue ? this.minItemValue : quality - value;
+	}
+
+	increaseQuality(quality, value) {
+		return quality + value > this.maxItemValue ? this.maxItemValue : quality + value;
+	}
+
+	updateBackstagePass(sellIn, quality) {
+		if (sellIn < 0) {
+			return (quality = 0);
 		} else {
 			let passIncrease;
-			if (item.sellIn < this.backstageTripleThreshold) {
+			if (sellIn < this.backstageTripleThreshold) {
 				passIncrease = 3;
-			} else if (item.sellIn < this.backstageDoubleThreshold) {
+			} else if (sellIn < this.backstageDoubleThreshold) {
 				passIncrease = 2;
 			} else {
 				passIncrease = 1;
 			}
-			this.increaseQuality(item, passIncrease);
+			return this.increaseQuality(quality, passIncrease);
 		}
 	}
 
-	updateAgedBrie(item) {
-		const qualityChangeRate = item.sellIn < 0 ? 2 : 1;
-		this.increaseQuality(item, qualityChangeRate);
+	updateAgedBrie(sellIn, quality) {
+		const qualityChangeRate = sellIn < 0 ? 2 : 1;
+		return this.increaseQuality(quality, qualityChangeRate);
 	}
 
-	updateManaCake(item) {
-		const qualityChangeRate = item.sellIn < 0 ? 4 : 2;
-		this.decreaseQuality(item, qualityChangeRate);
+	updateManaCake(sellIn, quality) {
+		const manaCakeEffect = 2;
+		const qualityChangeRate = sellIn < 0 ? 2 * manaCakeEffect : manaCakeEffect;
+		return this.decreaseQuality(quality, qualityChangeRate);
 	}
 
-	updateDefaultItem(item) {
-		const qualityChangeRate = item.sellIn < 0 ? 2 : 1;
-		this.decreaseQuality(item, qualityChangeRate);
+	updateDefaultItem(sellIn, quality) {
+		const qualityChangeRate = sellIn < 0 ? 2 : 1;
+		return this.decreaseQuality(quality, qualityChangeRate);
 	}
+
 }
